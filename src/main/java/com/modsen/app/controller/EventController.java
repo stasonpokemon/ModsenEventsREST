@@ -13,7 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,10 +28,17 @@ public class EventController {
 
 
     @GetMapping
-    public ResponseEntity<?> getAllEvents() {
+    public ResponseEntity<?> getAllEvents(@RequestParam(name = "sort", required = false) String[] sort) {
         ResponseEntity<?> response;
         try {
-            List<EventDTO> eventsDTO = eventService.findAll().stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+            List<EventDTO> eventsDTO;
+            if (Optional.ofNullable(sort).isPresent()) {
+                // sorting by sort params
+                eventsDTO = eventService.findAll(sort).stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+            } else {
+                // without sorting
+                eventsDTO = eventService.findAll().stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+            }
             response = new ResponseEntity<List<EventDTO>>(eventsDTO, HttpStatus.OK);
         } catch (Exception e) {
             response = new ResponseEntity<String>("Unable to get events",

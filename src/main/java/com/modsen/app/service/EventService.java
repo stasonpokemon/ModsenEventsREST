@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
@@ -24,6 +26,24 @@ public class EventService {
     @Transactional(readOnly = true)
     public List<Event> findAll() {
         return eventDAO.findAll();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<Event> findAll(String[] sortRequest) {
+        Map<String, String> sortRequestMap = new LinkedHashMap<>();
+        // if sortRequest contains ',' it means the sort array has more than one sort request
+        if (sortRequest[0].contains(",")) {
+            // sorting by more than one field
+            for (String singleRequest : sortRequest) {
+                String[] splitSingleRequest = singleRequest.split(",");
+                sortRequestMap.put(splitSingleRequest[0], splitSingleRequest[1]);
+            }
+        } else {
+            // sorting by one field
+            sortRequestMap.put(sortRequest[0], sortRequest[1]);
+        }
+        return  eventDAO.findAll(sortRequestMap);
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
@@ -53,5 +73,6 @@ public class EventService {
     public void delete(Long id) {
         eventDAO.delete(findById(id));
     }
+
 
 }

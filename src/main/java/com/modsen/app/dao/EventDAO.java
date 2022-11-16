@@ -3,6 +3,7 @@ package com.modsen.app.dao;
 import com.modsen.app.entity.Event;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface EventDAO {
@@ -17,4 +18,5 @@ public interface EventDAO {
 
     void delete(Event event);
 
+    List<Event> findAll(Map<String, String> sortRequestMap);
 }
