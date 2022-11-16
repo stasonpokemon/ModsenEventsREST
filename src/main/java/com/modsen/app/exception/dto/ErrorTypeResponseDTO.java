@@ -1,4 +1,4 @@
-package com.modsen.app.entity;
+package com.modsen.app.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ErrorType {
+public class ErrorTypeResponseDTO {
 
     private LocalDateTime time;
     private HttpStatus status;

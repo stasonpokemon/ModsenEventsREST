@@ -11,4 +11,5 @@ public class ModsenEventsRestApplication {
         SpringApplication.run(ModsenEventsRestApplication.class, args);
     }
 
+
 }

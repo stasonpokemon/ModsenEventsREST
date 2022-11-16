@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface EventDAO {
 
-
     List<Event> findAll();
 
     Optional<Event> findById(Long id);

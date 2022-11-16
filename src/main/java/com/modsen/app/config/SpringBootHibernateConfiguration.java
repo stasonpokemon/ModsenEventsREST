@@ -1,7 +1,7 @@
 package com.modsen.app.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
@@ -81,6 +81,13 @@ public class SpringBootHibernateConfiguration {
         transactionManager.setSessionFactory(sessionFactory().getObject());
 
         return transactionManager;
+    }
+
+
+    //    For DTO mapper
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 
 

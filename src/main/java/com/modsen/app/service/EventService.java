@@ -6,8 +6,11 @@ import com.modsen.app.exception.EventNotFoundException;
 import com.modsen.app.util.EventUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,7 +26,7 @@ public class EventService {
         return eventDAO.findAll();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public Event findById(Long id) {
         return eventDAO.findById(id).orElseThrow(() -> new EventNotFoundException(new StringBuilder()
                 .append("Event with id = ")
@@ -33,12 +36,17 @@ public class EventService {
     }
 
     public Event save(Event event) {
+        event.setCreatedAt(LocalDateTime.now());
+        event.setUpdatedAt(LocalDateTime.now());
         return eventDAO.save(event);
     }
 
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Event update(Long id, Event eventFromJson) {
         Event eventFromDb = findById(id);
         EventUtil.copyNotNullEventValues(eventFromJson, eventFromDb);
+        eventFromDb.setUpdatedAt(LocalDateTime.now());
         return eventDAO.update(eventFromDb);
     }
 

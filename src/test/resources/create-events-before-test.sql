@@ -1,3 +1,4 @@
+truncate table events;
 insert into events(topic, description, organizer, event_time, location, created_at, updated_at)
 values ('Spring REST', 'Today we will talk about Spring REST application', 'MODSEN Group', now(), 'Vitebsk', now(), now());
 insert into events(topic, description, organizer, event_time, location, created_at, updated_at)

@@ -1,18 +1,16 @@
-package com.modsen.app.dao;
+package com.modsen.app.dao.impl;
 
+import com.modsen.app.dao.EventDAO;
 import com.modsen.app.entity.Event;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Transactional
 public class EventDAOImpl implements EventDAO {
 
     @Autowired
@@ -22,7 +20,9 @@ public class EventDAOImpl implements EventDAO {
     public List<Event> findAll() {
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("FROM Event", Event.class).getResultList();
+
     }
+
 
     @Override
     public Optional<Event> findById(Long id) {
