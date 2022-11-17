@@ -1,6 +1,7 @@
 package com.modsen.app.dao;
 
 import com.modsen.app.entity.Event;
+import com.modsen.app.util.SortRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,13 @@ class EventDAOImplTest {
     }
 
     @Test
+    void findAllBySortRequest() {
+        List<Event> events = eventDAO.findAll(SortRequest.by(Event.class, new String[]{"topic","asc"}));
+        assertEquals(3, events.size(), "Events size must be 3");
+        assertNotEquals(4, events.size(), "Events size must not be 4");
+    }
+
+    @Test
     void findById() {
         Event event = eventDAO.findById(1L).get();
         assertEquals(1, event.getId(), "Event id  must be 1");
@@ -57,7 +65,7 @@ class EventDAOImplTest {
 
     @Test
     void update() {
-        Event eventForUpdate = new Event( "Test topic changed", "Test description changed", "Test organizer changed", new Timestamp(new Date().getTime()), "Test location changed");
+        Event eventForUpdate = new Event("Test topic changed", "Test description changed", "Test organizer changed", new Timestamp(new Date().getTime()), "Test location changed");
         eventForUpdate.setId(1L);
         Event updatedEvent = eventDAO.update(eventForUpdate);
         assertEquals(eventDAO.findById(1L).get(), updatedEvent);

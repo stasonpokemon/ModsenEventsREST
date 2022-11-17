@@ -3,6 +3,7 @@ package com.modsen.app.service;
 import com.modsen.app.dao.EventDAO;
 import com.modsen.app.entity.Event;
 import com.modsen.app.exception.EventNotFoundException;
+import com.modsen.app.service.impl.EventService;
 import com.modsen.app.util.EventUtil;
 import com.modsen.app.util.SortRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.*;
 
 @Service
 @Transactional
-public class EventService {
+public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventDAO eventDAO;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.modsen.app.entity.dto.EventDTO;
 import com.modsen.app.entity.Event;
 import com.modsen.app.exception.EventNotFoundException;
-import com.modsen.app.service.EventService;
+import com.modsen.app.service.EventServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +40,7 @@ class EventControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private EventService eventService;
+    private EventServiceImpl eventService;
 
     @Autowired
     private ModelMapper modelMapper;
