@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.sql.Timestamp;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,6 +55,30 @@ class EventControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(content().json(objectMapper.writeValueAsString(eventsDTO)));
+    }
+
+    @Test
+    void getAllEventsWithSorting() throws Exception {
+        List<EventDTO> eventsDTOSortedByTopic = eventService.findAll()
+                .stream()
+                .map(event -> modelMapper.map(event, EventDTO.class))
+//                .sorted(Comparator.comparing(EventDTO::getTopic))
+                .collect(Collectors.toList());
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/events").queryParam("sort", "topic,asc");
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(content().json(objectMapper.writeValueAsString(eventsDTOSortedByTopic)));
+    }
+
+    @Test
+    void getAllEventsWithSortingAndSortParametersNotValidException() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/events").queryParam("sort", "topic,descsdsf");
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType("application/json"));
     }
 
     @Test
@@ -172,8 +197,7 @@ class EventControllerTest {
         mockMvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType("application/json"))
-                .andExpect(mvcResult -> mvcResult.getResolvedException().getClass().equals(EventNotFoundException.class));
+                .andExpect(content().contentType("application/json"));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.modsen.app.exception.handler;
 
+import com.modsen.app.exception.SortParametersNotValidException;
 import com.modsen.app.exception.dto.ErrorTypeResponseDTO;
 import com.modsen.app.exception.EventNotFoundException;
 import com.modsen.app.exception.EventNotValidException;
@@ -38,6 +39,15 @@ public class EventExceptionHandler {
         return new ResponseEntity<ErrorTypeResponseDTO>(ErrorTypeResponseDTO.builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .message(httpMessageNotReadableException.getMessage())
+                .time(LocalDateTime.now())
+                .build(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SortParametersNotValidException.class)
+    public ResponseEntity<ErrorTypeResponseDTO> eventSortParamNotValidExceptionHandler(SortParametersNotValidException eventSortParamNotValidException) {
+        return new ResponseEntity<ErrorTypeResponseDTO>(ErrorTypeResponseDTO.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message(eventSortParamNotValidException.getMessage())
                 .time(LocalDateTime.now())
                 .build(), HttpStatus.BAD_REQUEST);
     }

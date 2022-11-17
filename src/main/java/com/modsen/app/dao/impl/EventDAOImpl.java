@@ -2,6 +2,7 @@ package com.modsen.app.dao.impl;
 
 import com.modsen.app.dao.EventDAO;
 import com.modsen.app.entity.Event;
+import com.modsen.app.util.SortRequest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -25,12 +26,11 @@ public class EventDAOImpl implements EventDAO {
 
     }
     @Override
-    public List<Event> findAll(Map<String, String> sortRequestMap) {
+    public List<Event> findAll(SortRequest sortRequest) {
         Session session = sessionFactory.getCurrentSession();
         StringBuilder SQL = new StringBuilder("FROM Event e ORDER BY ");
-
         int requestsAmount = 0;
-        for (Map.Entry<String, String> stringEntry : sortRequestMap.entrySet()) {
+        for (Map.Entry<String, String> stringEntry : sortRequest.getCorrectSortRequest().entrySet()) {
             if (requestsAmount == 0){
                 // single or first requests mustn't have ',' before themselves by SQL syntax
                 SQL.append("e.").append(stringEntry.getKey()).append(" ").append(stringEntry.getValue());

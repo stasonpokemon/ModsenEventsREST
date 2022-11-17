@@ -4,7 +4,9 @@ import com.modsen.app.entity.dto.EventDTO;
 import com.modsen.app.entity.Event;
 import com.modsen.app.exception.EventNotFoundException;
 import com.modsen.app.exception.EventNotValidException;
+import com.modsen.app.exception.SortParametersNotValidException;
 import com.modsen.app.service.EventService;
+import com.modsen.app.util.SortRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,12 +36,14 @@ public class EventController {
             List<EventDTO> eventsDTO;
             if (Optional.ofNullable(sort).isPresent()) {
                 // sorting by sort params
-                eventsDTO = eventService.findAll(sort).stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
+                eventsDTO = eventService.findAll(SortRequest.by(Event.class, sort)).stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
             } else {
                 // without sorting
                 eventsDTO = eventService.findAll().stream().map(event -> modelMapper.map(event, EventDTO.class)).collect(Collectors.toList());
             }
             response = new ResponseEntity<List<EventDTO>>(eventsDTO, HttpStatus.OK);
+        } catch (SortParametersNotValidException eventSortParamNotValidException) {
+            throw eventSortParamNotValidException;
         } catch (Exception e) {
             response = new ResponseEntity<String>("Unable to get events",
                     HttpStatus.INTERNAL_SERVER_ERROR);

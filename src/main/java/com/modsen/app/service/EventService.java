@@ -4,6 +4,7 @@ import com.modsen.app.dao.EventDAO;
 import com.modsen.app.entity.Event;
 import com.modsen.app.exception.EventNotFoundException;
 import com.modsen.app.util.EventUtil;
+import com.modsen.app.util.SortRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -11,9 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -30,21 +29,10 @@ public class EventService {
 
 
     @Transactional(readOnly = true)
-    public List<Event> findAll(String[] sortRequest) {
-        Map<String, String> sortRequestMap = new LinkedHashMap<>();
-        // if sortRequest contains ',' it means the sort array has more than one sort request
-        if (sortRequest[0].contains(",")) {
-            // sorting by more than one field
-            for (String singleRequest : sortRequest) {
-                String[] splitSingleRequest = singleRequest.split(",");
-                sortRequestMap.put(splitSingleRequest[0], splitSingleRequest[1]);
-            }
-        } else {
-            // sorting by one field
-            sortRequestMap.put(sortRequest[0], sortRequest[1]);
-        }
-        return  eventDAO.findAll(sortRequestMap);
+    public List<Event> findAll(SortRequest sortRequest) {
+        return eventDAO.findAll(sortRequest);
     }
+
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public Event findById(Long id) {
