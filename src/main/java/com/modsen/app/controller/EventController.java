@@ -1,11 +1,11 @@
 package com.modsen.app.controller;
 
-import com.modsen.app.entity.dto.EventDTO;
 import com.modsen.app.entity.Event;
+import com.modsen.app.entity.dto.EventDTO;
 import com.modsen.app.exception.EventNotFoundException;
 import com.modsen.app.exception.EventNotValidException;
 import com.modsen.app.exception.SortParametersNotValidException;
-import com.modsen.app.service.EventService;
+import com.modsen.app.service.impl.EventService;
 import com.modsen.app.util.SortRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
