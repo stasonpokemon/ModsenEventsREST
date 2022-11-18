@@ -1,4 +1,5 @@
-# You should create application.properties in this folder and copy properties fom this file to new file
+# You should create application-test.properties in this folder and copy properties fom this file to new file
+
 
 
 # Data source configuration
