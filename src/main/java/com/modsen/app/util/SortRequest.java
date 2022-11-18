@@ -23,6 +23,9 @@ public class SortRequest {
 
     public static <T> SortRequest by(Class<T> tClass, String[] request) {
         Map<String, String> sortRequestMap = new LinkedHashMap<>();
+        if(request.length < 2){
+            throw new SortParametersNotValidException(new StringBuilder("Wrong sort request - ").append(Arrays.toString(request).replace("[","").replace("]","")).toString());
+        }
         // if sortRequest contains ',' it means the sort array has more than one sort request
         if (request[0].contains(",")) {
             // sorting by more than one field
