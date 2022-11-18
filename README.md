@@ -37,5 +37,9 @@ You need to create you own application.properties file (to main/resources folder
   
     server.port=8081
 
+
+# About filling the database
+
+You shouldn't fill the database because the application has flyway migrations
   
   
