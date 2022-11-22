@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/events")
@@ -31,7 +32,6 @@ public class EventController {
     public ResponseEntity<?> getEvent(@PathVariable("id") Long id) {
         return eventService.findById(id);
     }
-
 
 
     @PostMapping
