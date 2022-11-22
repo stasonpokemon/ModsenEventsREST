@@ -1,11 +1,9 @@
 package com.modsen.app.entity.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.modsen.app.entity.Event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -32,14 +30,6 @@ public class EventDTO {
 
     @NotEmpty(message = "Location should be not empty")
     private String location;
-
-//    public static Event toEvent(EventDTO eventDTO) {
-//        return new ModelMapper().map(eventDTO, Event.class);
-//    }
-//
-//    public static EventDTO fromEvent(Event event) {
-//        return new ModelMapper().map(event, EventDTO.class);
-//    }
 
 
 }

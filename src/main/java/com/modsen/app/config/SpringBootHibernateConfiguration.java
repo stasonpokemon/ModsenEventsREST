@@ -83,8 +83,6 @@ public class SpringBootHibernateConfiguration {
         return transactionManager;
     }
 
-
-    //    For DTO mapper
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();

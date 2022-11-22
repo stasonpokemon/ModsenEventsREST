@@ -5,7 +5,6 @@ import com.modsen.app.entity.Event;
 import com.modsen.app.util.SortRequest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,18 +31,14 @@ public class EventDAOImpl implements EventDAO {
         int requestsAmount = 0;
         for (Map.Entry<String, String> stringEntry : sortRequest.getCorrectSortRequest().entrySet()) {
             if (requestsAmount == 0){
-                // single or first requests mustn't have ',' before themselves by SQL syntax
                 SQL.append("e.").append(stringEntry.getKey()).append(" ").append(stringEntry.getValue());
             }else {
-                // second and other requests must have ',' before themselves by SQL syntax
                 SQL.append(", e.").append(stringEntry.getKey()).append(" ").append(stringEntry.getValue());
             }
             requestsAmount++;
         }
         return session.createQuery(SQL.toString(), Event.class).getResultList();
     }
-
-
 
     @Override
     public Optional<Event> findById(Long id) {

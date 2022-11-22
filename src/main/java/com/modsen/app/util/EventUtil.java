@@ -1,10 +1,22 @@
 package com.modsen.app.util;
 
 import com.modsen.app.entity.Event;
+import com.modsen.app.exception.EventNotValidException;
+import org.springframework.validation.BindingResult;
 
-public abstract class EventUtil {
+public class EventUtil {
 
-    public static void copyNotNullEventValues(Event from, Event to) {
+    private static EventUtil instance;
+
+    private EventUtil(){}
+
+    public synchronized static EventUtil getInstance(){
+        if (instance == null){
+            instance = new EventUtil();
+        }
+        return instance;
+    }
+    public void copyNotNullEventValues(Event from, Event to) {
         if (from.getTopic() != null && !from.getTopic().isEmpty()) {
             to.setTopic(from.getTopic());
         }
@@ -21,4 +33,15 @@ public abstract class EventUtil {
             to.setEventTime(from.getEventTime());
         }
     }
+
+    public void checkEventBindingResult(BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            bindingResult.getFieldErrors().forEach(fieldError -> {
+                errorMessage.append(fieldError.getField()).append(" - ").append(fieldError.getDefaultMessage()).append("; ");
+            });
+            throw new EventNotValidException(errorMessage.toString());
+        }
+    }
+
 }

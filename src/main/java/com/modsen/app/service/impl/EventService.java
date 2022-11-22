@@ -1,28 +1,22 @@
 package com.modsen.app.service.impl;
 
 
-import com.modsen.app.entity.Event;
-import com.modsen.app.util.SortRequest;
-
-import java.util.List;
+import com.modsen.app.entity.dto.EventDTO;
+import org.springframework.http.ResponseEntity;
 
 public interface EventService {
 
 
-    List<Event> findAll();
+    ResponseEntity<?> findAll(String[] sort);
+
+    ResponseEntity<?> findById(Long id);
+
+    ResponseEntity<?>  save(EventDTO eventDTO);
 
 
-    List<Event> findAll(SortRequest sortRequest);
+    ResponseEntity<?> update(Long id, EventDTO eventDTO);
 
-
-    Event findById(Long id);
-
-    Event save(Event event);
-
-
-    Event update(Long id, Event eventFromJson);
-
-    void delete(Long id);
+    ResponseEntity<String> delete(Long id);
 
 
 }
